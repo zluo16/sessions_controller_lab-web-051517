@@ -1,7 +1,7 @@
 require 'rails_helper'
-require 'pry'
 
 RSpec.describe SessionsController, type: :controller do
+  render_views
   describe 'post create' do
     it 'redirects to the login page if :name is nil' do
       post :create
@@ -18,6 +18,14 @@ RSpec.describe SessionsController, type: :controller do
       post :create, name: me
       expect(@request.session[:name]).to eq me
     end
+
+    it 'redirects to "/" if logged in' do
+      me = 'Werner Brandes'
+      post :create, name: me
+      expect(response).to redirect_to('/')
+    end
+
+
   end
 
   describe 'post destroy' do    
