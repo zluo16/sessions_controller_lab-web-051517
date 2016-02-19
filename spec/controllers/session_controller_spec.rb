@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'pry'
 
 RSpec.describe SessionsController, type: :controller do
   describe 'post create' do
@@ -15,21 +16,21 @@ RSpec.describe SessionsController, type: :controller do
     it 'sets session[:name] if :name was given' do
       me = 'Werner Brandes'
       post :create, name: me
-      expect(@response.session[:name]).to eq me
+      expect(@request.session[:name]).to eq me
     end
   end
 
   describe 'post destroy' do    
     it 'leaves session[:name] nil if it was not set' do
       post :destroy
-      expect(@response.session[:name]).to be nil
+      expect(@request.session[:name]).to be nil
     end
 
     it 'clears session[:name] if it was set' do
       post :create, name: 'Trinity'
-      expect(@response.session[:name]).not_to be nil
+      expect(@request.session[:name]).not_to be nil
       post :destroy
-      expect(@response.session[:name]).to be nil
+      expect(@request.session[:name]).to be nil
     end
   end
 end
